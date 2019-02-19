@@ -1,0 +1,17 @@
+C:\Users\user\source\repos\PassSaver\PassSaver\bin\Debug\PassSaver.exe.config
+C:\Users\user\source\repos\PassSaver\PassSaver\bin\Debug\PassSaver.exe
+C:\Users\user\source\repos\PassSaver\PassSaver\bin\Debug\PassSaver.pdb
+C:\Users\user\source\repos\PassSaver\PassSaver\obj\Debug\PassSaver.csprojAssemblyReference.cache
+C:\Users\user\source\repos\PassSaver\PassSaver\obj\Debug\PassSaver.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\PassSaver\PassSaver\obj\Debug\PassSaver.exe
+C:\Users\user\source\repos\PassSaver\PassSaver\obj\Debug\PassSaver.pdb
+C:\Programs\PassSaver\PassSaver\bin\Debug\PassSaver.exe.config
+C:\Programs\PassSaver\PassSaver\bin\Debug\PassSaver.exe
+C:\Programs\PassSaver\PassSaver\bin\Debug\PassSaver.pdb
+C:\Programs\PassSaver\PassSaver\obj\Debug\PassSaver.csprojAssemblyReference.cache
+C:\Programs\PassSaver\PassSaver\obj\Debug\PassSaver.csproj.CoreCompileInputs.cache
+C:\Programs\PassSaver\PassSaver\obj\Debug\PassSaver.exe
+C:\Programs\PassSaver\PassSaver\obj\Debug\PassSaver.pdb
+C:\Programs\PassSaver\PassSaver\bin\Debug\MirzaCryptoHelpersV2.dll
+C:\Programs\PassSaver\PassSaver\bin\Debug\MirzaCryptoHelpersV2.xml
+C:\Programs\PassSaver\PassSaver\obj\Debug\PassSaver.csproj.CopyComplete
