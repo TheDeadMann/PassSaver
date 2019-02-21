@@ -9,7 +9,7 @@ namespace PassSaver
 {
     class Variables
     {
-        public static string Version = "1.0.0";
+        public static string Version = "1.1.0";
 
         public static string Logo = @"
 ______              _____                      

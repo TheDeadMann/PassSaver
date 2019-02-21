@@ -30,24 +30,26 @@ namespace PassSaver
             Console.WriteLine("\nMade by TheDeadMan");
             Thread.Sleep(2500);
             Console.Clear();
+
+            Program.ProgramPassword();
         }
 
         private static void Error()
         {
             Console.Clear();
             Console.WriteLine(Variables.error);
-            Thread.Sleep(1000);
-            Console.Clear();
-            Console.WriteLine("Please use the program correctly.");
-            Thread.Sleep(750);
-            Console.Clear();
-            Console.WriteLine("Please use the program correctly..");
-            Thread.Sleep(750);
-            Console.Clear();
-            Console.WriteLine("Please use the program correctly...");
-            Thread.Sleep(750);
+            Thread.Sleep(1500);
             Console.Clear();
             Program.Welcome();
+        }
+
+        private static void MainPasswordError()
+        {
+            Console.Clear();
+            Console.WriteLine(Variables.error);
+            Thread.Sleep(1500);
+
+            Program.ProgramPassword();
         }
 
         private static void Done()
@@ -57,6 +59,75 @@ namespace PassSaver
             Thread.Sleep(1500);
 
             Program.Welcome();
+        }
+
+        private static void ProgramPassword()
+        {
+            Console.Clear();
+
+            if (File.Exists(@"..\..\MAIN.txt"))
+            {
+                Console.Write("Password: ");
+                var password = "";
+                do
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                    {
+                        password += key.KeyChar;
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                        {
+                            password = password.Substring(0, (password.Length - 1));
+                            Console.Write("\b \b");
+                        }
+                        else if (key.Key == ConsoleKey.Enter)
+                        {
+                            break;
+                        }
+                    }
+                } while (true);
+
+                if (password.ToBinary() == File.ReadAllText(@"..\..\MAIN.txt"))
+                    Program.Done();
+
+                else Program.MainPasswordError();
+            }
+
+            else
+            {
+                Console.WriteLine("Welcome to PassSaver!");
+                Console.WriteLine("Please setup your password for the program:\n");
+                var MainPassword = "";
+                do
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                    {
+                        MainPassword += key.KeyChar;
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        if (key.Key == ConsoleKey.Backspace && MainPassword.Length > 0)
+                        {
+                            MainPassword = MainPassword.Substring(0, (MainPassword.Length - 1));
+                            Console.Write("\b \b");
+                        }
+                        else if (key.Key == ConsoleKey.Enter)
+                        {
+                            break;
+                        }
+                    }
+                } while (true);
+
+                File.WriteAllText(@"..\..\MAIN.txt", MainPassword.ToBinary());
+
+                Program.Done();
+            }
         }
 
         private static void Welcome()
@@ -161,8 +232,21 @@ namespace PassSaver
 
                 else if (fileChoice.Key == ConsoleKey.D2 || fileChoice.Key == ConsoleKey.NumPad2)
                 {
-                    File.Delete($@"..\..\PS\{Path.GetFileNameWithoutExtension(Variables.fileArray[passwordChoiceInt - 1])}.txt");
-                    Program.Done();
+                    Console.Clear();
+                    Console.WriteLine("Are you sure you want to delete this password? (y/n)");
+                    var yesno = Console.ReadKey();
+
+                    if (yesno.Key == ConsoleKey.Y)
+                    {
+                        File.Delete($@"..\..\PS\{Path.GetFileNameWithoutExtension(Variables.fileArray[passwordChoiceInt - 1])}.txt");
+                        Program.Done();
+                    }
+
+                    else if (yesno.Key == ConsoleKey.N)
+                        Program.Welcome();
+
+                    else
+                        Program.Error();
                 }
 
                 else if (fileChoice.Key == ConsoleKey.D3 || fileChoice.Key == ConsoleKey.NumPad3)
@@ -178,45 +262,73 @@ namespace PassSaver
         {
             Console.Clear();
 
-            Console.WriteLine("How long do you want your password to be?\n(REMEMBER: the longer your password, the safer it is to use)");
+            Console.WriteLine("1) Randomize a password");
+            Console.WriteLine("2) Input a password");
+            Console.WriteLine("3) Main Menu");
+            var choice = Console.ReadKey();
 
-            int length = int.Parse(Console.ReadLine());
-            string[] Password = new string[length];
-
-            for (int i = 0; i < length; i++)
-            {
-                int z = rnd.Next(Variables.chars.Length);
-                string x = Variables.chars[z].ToString();
-
-                Password[i] = x;
-            }
-
-            Console.Clear();
-            Console.Write($"Your password is: {PrintArrString(Password)}");
-            Console.WriteLine("\nDo you want to use this password? (y/n)");
-            var yesno = Console.ReadKey();
-
-            if (yesno.Key == ConsoleKey.Y)
+            if (choice.Key == ConsoleKey.D1 || choice.Key == ConsoleKey.NumPad1)
             {
                 Console.Clear();
+                Console.WriteLine("How long do you want your password to be?\n(REMEMBER: the longer your password, the safer it is to use)");
+
+                int length = int.Parse(Console.ReadLine());
+                string[] Password = new string[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    int z = rnd.Next(Variables.chars.Length);
+                    string x = Variables.chars[z].ToString();
+
+                    Password[i] = x;
+                }
+
+                Console.Clear();
+                Console.Write($"Your password is: {PrintArrString(Password)}");
+                Console.WriteLine("\nDo you want to use this password? (y/n)");
+                var yesno = Console.ReadKey();
+
+                if (yesno.Key == ConsoleKey.Y)
+                {
+                    Console.Clear();
+                    Console.WriteLine("What are you using the password for?");
+                    string title = Console.ReadLine();
+
+                    var encryptedPassword = PrintArrString(Password).ToBinary();
+                    File.WriteAllText($@"..\..\PS\{title.ToLower()}.txt", encryptedPassword);
+
+                    Program.Done();
+                }
+
+                else if (yesno.Key == ConsoleKey.N) Program.Welcome();
+
+                else Program.Error();
+            }
+
+            else if (choice.Key == ConsoleKey.D2 || choice.Key == ConsoleKey.NumPad2)
+            {
+                Console.Clear();
+
+                Console.WriteLine("Please insert the password:");
+                var password = Console.ReadLine();
+                var encryptedPassword = password.ToBinary();
+
+                Console.Clear();
                 Console.WriteLine("What are you using the password for?");
-                string title = Console.ReadLine();
-                
-                var encryptedPassword = PrintArrString(Password).ToBinary();
+                var title = Console.ReadLine();
+
                 File.WriteAllText($@"..\..\PS\{title.ToLower()}.txt", encryptedPassword);
 
                 Program.Done();
             }
 
-            else if (yesno.Key == ConsoleKey.N) Program.Welcome();
-
-            else Program.Error();
+            else if (choice.Key == ConsoleKey.D3 || choice.Key == ConsoleKey.NumPad3)
+                Program.Welcome();
         }
 
         static void Main(string[] args)
         {
             Program.Intro();
-            Program.Welcome();
         }
     }
 }
